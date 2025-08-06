@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Courses</title>
+</head>
+
+<body>
+    {% for message in get_flashed_messages() %}
+    <div class="flash"> {{ message }} </div>
+    {% endfor %}
+
+    <h2>{{ course.name }}</h2>
+    <div>Description: {{ course.description }}</div>
+    <div>Capacity: {{ course.capacity }}</div>
+    <div class="hlist">
+        Prerequisites:
+        {% for prerequisite in course.prerequisites %}
+        <div class="small-box">{{ prerequisite.prerequisite }}</div>
+        {% endfor %}
+    </div>
+    <div>
+        {% for interval in course.intervals %}
+        <div id="course-time-start-{{loop.index}}-{{course.id}}">
+            {{timestamp_to_str(interval.start)}}
+        </div>
+        <div id="course-time-end-{{loop.index}}-{{course.id}}">
+            {{timestamp_to_str(interval.end)}}
+        </div>
+
+        <script>
+            T = (i, t) => document.querySelector(i).innerText = Intl.DateTimeFormat(undefined, { dateStyle: "full", timeStyle: "short" }).format(+t);
+            T("#course-time-start-{{loop.index}}-{{course.id}}", "{{interval.start * 1000}}");
+            T("#course-time-end-{{loop.index}}-{{course.id}}", "{{interval.end * 1000}}");
+        </script>
+        {% endfor %}
+    </div>
+    {% if user_has_course == False %}
+    <a href="{{ url_for('course.add_course', id=course.id) }}">Add course</a>
+    {% else %}
+    <a href="{{ url_for('course.remove_course', id=course.id) }}">Remove course</a>
+    {% endif %}
+    {% if user.is_admin() %}
+    <a href="{{ url_for('admin.delete_course', id=course.id) }}">Delete course</a>
+    {% endif %}
+</body>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Admin dashboard</title>
+</head>
+
+<body>
+    <a href="{{ url_for('admin.add_course') }}">Add course</a>
+    <a href="{{ url_for('admin.register_admin') }}">Register admin</a>
+    <a href="{{ url_for('admin.remove_user') }}">Remove user</a>
+
+</body>
+
+</html>

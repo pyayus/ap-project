@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>Remove user</title>
+</head>
+
+<body>
+  <h1>Remove user</h1>
+  <br>
+  {% for message in get_flashed_messages() %}
+  <div class="flash"> {{ message }} </div>
+  {% endfor %}
+
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-item"> {{ form.username.label }} {{ form.username() }} </div>
+    {{ form.submit() }}
+  </form>
+</body>
+
+</html>

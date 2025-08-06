@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Add course</title>
+</head>
+
+<body>
+    {% for message in get_flashed_messages() %}
+    <div class="flash"> {{ message }} </div>
+    {% endfor %}
+
+    <h1>Add course</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-item"> {{ form.name.label }} {{ form.name() }} </div>
+        <div class="form-item"> {{ form.description.label }} {{ form.description() }} </div>
+        <div class="form-item"> {{ form.capacity.label }} {{ form.capacity() }} </div>
+        <div class="box">
+            {{ form.intervals.label }}
+            <div class="hlist">
+                {% for interval in form.intervals.entries %}
+                <div class="box">
+                    {{ interval.form.hidden_tag() }}
+                    <div class="form-item"> {{ interval.form.start.label }} {{ interval.form.start() }} </div>
+                    <div class="form-item"> {{ interval.form.end.label }} {{ interval.form.end() }} </div>
+                    <div>
+                        {{ interval.form.every.label }}
+                        {{ interval.form.every.form.hidden_tag() }}
+                        <div class="box">
+                            <div class="form-item">
+                                {{ interval.form.every.form.month.label }}
+                                {{ interval.form.every.form.month() }}
+                            </div>
+                            <div class="form-item">
+                                {{ interval.form.every.form.day.label }}
+                                {{ interval.form.every.form.day() }}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        {{ interval.form.duration.label }}
+                        {{ interval.form.duration.form.hidden_tag() }}
+                        <div class="box">
+                            <div class="form-item">
+                                {{ interval.form.duration.form.hour.label }}
+                                {{ interval.form.duration.form.hour() }}
+                            </div>
+                            <div class="form-item">
+                                {{ interval.form.duration.form.minutes.label }}
+                                {{ interval.form.duration.form.minutes() }}
+                            </div>
+                        </div>
+                    </div>
+                    {{ interval.form.remove() }}
+                </div>
+                {% endfor %}
+            </div>
+            {{ form.add_interval() }}
+        </div>
+        <div class="box">
+            {{ form.prerequisites.label }}
+            {% for prerequisite in form.prerequisites.entries %}
+            <div class="form-item">
+                {{ prerequisite.form.hidden_tag() }}
+                {{ prerequisite.form.prerequisite() }}
+                {{ prerequisite.form.remove() }}
+            </div>
+            {% endfor %}
+            <!-- <div class="form-item"> {{ form.prerequisites.label }} {{ form.prerequisites() }} </div> -->
+            <div class="form-item"> {{ form.add_prerequisite() }} </div>
+        </div>
+        {{ form.submit() }}
+    </form>
+</body>
+
+</html>
